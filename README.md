@@ -74,25 +74,25 @@ snowflake:
 ```
 
 ##🏃 Running the Pipeline
-bash
+```bash
 # Trigger DAG manually
 docker-compose exec airflow-webserver airflow dags trigger dbt_pipeline
 
 # Run DBT directly
 docker-compose exec dbt dbt run
-##🧪 Validation
-sql
-```-- Check transformed data
- SELECT * FROM ANALYTICS.TRANSFORMED.CUSTOMERS LIMIT 10;
 ```
 
----
+##🧪 Validation
+```sql
+-- Check transformed data
+ SELECT * FROM ANALYTICS.TRANSFORMED.CUSTOMERS LIMIT 10;
+```
 
 🛠 Troubleshooting
 DBT Connection Issues:
 
-bash
-``` docker-compose exec dbt dbt debug
+```bash
+docker-compose exec dbt dbt debug
 ``` 
 Airflow Logs:
 
