@@ -1,0 +1,54 @@
+version: "3.8"
+
+services:
+  # Airflow Scheduler & Webserver
+  airflow-scheduler:
+    image: apache/airflow:2.5.1
+    command: scheduler
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres/airflow
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+    volumes:
+      - ./Data Pipeline/dags:/opt/airflow/dags  # Mount your DAGs
+      - ./Data Pipeline/include:/opt/airflow/include  # Optional: Airflow includes
+    depends_on:
+      - postgres
+      - airflow-webserver
+
+  airflow-webserver:
+    image: apache/airflow:2.5.1
+    command: webserver
+    ports:
+      - "8080:8080"  # Access Airflow UI at http://localhost:8080
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres/airflow
+    depends_on:
+      - postgres
+
+  # PostgreSQL for Airflow metadata + DBT (if used)
+  postgres:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=airflow
+      - POSTGRES_PASSWORD=airflow
+      - POSTGRES_DB=airflow
+    ports:
+      - "5432:5432"  # Expose PostgreSQL port (optional)
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # DBT Service (if running transformations in Docker)
+  dbt:
+    build: ./Data Pipeline  # Assumes Dockerfile is in "Data Pipeline/"
+    working_dir: /usr/app
+    environment:
+      - DBT_PROFILES_DIR=/usr/app
+    volumes:
+      - ./Data Pipeline:/usr/app  # Mount DBT project
+    depends_on:
+      - postgres  # Assuming DBT connects to PostgreSQL
+
+volumes:
+  postgres_data:
