@@ -42,13 +42,13 @@ cp .env.example .env
 # Edit .env with your credentials
 docker-compose up -d
 
-Access Airflow UI: http://localhost:8080 (airflow/airflow)
+Access Airflow UI: http://localhost:8080 (airflow/airflow)``` 
 ##⚙️ Configuration
 Airflow Connections
 airflow_settings.yaml:
 
 yaml
-connections:
+``` connections:
   snowflake_conn:
     conn_type: snowflake
     host: "<account>.snowflakecomputing.com"
@@ -69,7 +69,7 @@ snowflake:
       user: "{{ env_var('SNOWFLAKE_USER') }}"
       password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
       database: "ANALYTICS"
-      schema: "TRANSFORMED"
+      schema: "TRANSFORMED"``` 
 ##🏃 Running the Pipeline
 bash
 # Trigger DAG manually
@@ -80,16 +80,16 @@ docker-compose exec dbt dbt run
 ##🧪 Validation
 sql
 -- Check transformed data
-SELECT * FROM ANALYTICS.TRANSFORMED.CUSTOMERS LIMIT 10;
+``` SELECT * FROM ANALYTICS.TRANSFORMED.CUSTOMERS LIMIT 10;``` 
 🛠 Troubleshooting
 DBT Connection Issues:
 
 bash
-docker-compose exec dbt dbt debug
+``` docker-compose exec dbt dbt debug``` 
 Airflow Logs:
 
 bash
-docker-compose logs -f airflow-scheduler -d
+``` docker-compose logs -f airflow-scheduler -d``` 
 
 ##🤝 Contributing
 Fork the repository
