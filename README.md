@@ -69,7 +69,9 @@ snowflake:
       user: "{{ env_var('SNOWFLAKE_USER') }}"
       password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
       database: "ANALYTICS"
-      schema: "TRANSFORMED"``` 
+      schema: "TRANSFORMED"```
+---
+
 ##🏃 Running the Pipeline
 bash
 # Trigger DAG manually
