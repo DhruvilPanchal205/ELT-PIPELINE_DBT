@@ -1,0 +1,35 @@
+# --- General ---
+.DS_Store
+*.pyc
+__pycache__/
+*.egg-info/
+.venv/
+dbt_venv/
+
+# --- Airflow ---
+airflow.db
+airflow-webserver.pid
+airflow.cfg
+webserver_config.py
+airflow_settings.yaml
+logs/
+
+# --- DBT ---
+/target/
+/dbt_packages/
+/logs/
+
+# --- Environment/Secrets ---
+.env
+profiles.yml  # DBT Snowflake credentials
+
+# --- Docker ---
+/data/
+/volumes/
+
+# --- IDE/Editor ---
+.vscode/
+.idea/
+
+# --- Astro (if applicable) ---
+astro/
