@@ -89,7 +89,8 @@ docker-compose exec dbt dbt debug
 Airflow Logs:
 
 bash
-docker-compose logs -f airflow-scheduler
+docker-compose logs -f airflow-scheduler -d
+
 🤝 Contributing
 Fork the repository
 
