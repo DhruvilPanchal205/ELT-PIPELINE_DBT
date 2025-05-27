@@ -40,7 +40,7 @@ git clone https://github.com/your-repo/elt-pipeline.git
 cd elt-pipeline
 cp .env.example .env
 # Edit .env with your credentials
-docker-compose up -d
+docker-compose up -d```
 
 Access Airflow UI: http://localhost:8080 (airflow/airflow)``` 
 ##⚙️ Configuration
@@ -70,7 +70,6 @@ snowflake:
       password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
       database: "ANALYTICS"
       schema: "TRANSFORMED"```
----
 
 ##🏃 Running the Pipeline
 bash
