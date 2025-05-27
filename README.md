@@ -40,11 +40,10 @@ git clone https://github.com/your-repo/elt-pipeline.git
 cd elt-pipeline
 cp .env.example .env
 # Edit .env with your credentials
-docker-compose up -d
+docker-compose up -d ```
 
----
+###Access Airflow UI: http://localhost:8080 (airflow/airflow)
 
-Access Airflow UI: http://localhost:8080 (airflow/airflow)``` 
 ##⚙️ Configuration
 Airflow Connections
 airflow_settings.yaml:
@@ -71,23 +70,21 @@ snowflake:
       user: "{{ env_var('SNOWFLAKE_USER') }}"
       password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
       database: "ANALYTICS"
-      schema: "TRANSFORMED"```
-
----
+      schema: "TRANSFORMED"
+```
 
 ##🏃 Running the Pipeline
 bash
 # Trigger DAG manually
 docker-compose exec airflow-webserver airflow dags trigger dbt_pipeline
 
----
-
 # Run DBT directly
 docker-compose exec dbt dbt run
 ##🧪 Validation
 sql
--- Check transformed data
-``` SELECT * FROM ANALYTICS.TRANSFORMED.CUSTOMERS LIMIT 10;```
+```-- Check transformed data
+ SELECT * FROM ANALYTICS.TRANSFORMED.CUSTOMERS LIMIT 10;
+```
 
 ---
 
@@ -95,13 +92,13 @@ sql
 DBT Connection Issues:
 
 bash
-``` docker-compose exec dbt dbt debug``` 
+``` docker-compose exec dbt dbt debug
+``` 
 Airflow Logs:
 
 bash
-``` docker-compose logs -f airflow-scheduler -d```
-
----
+``` docker-compose logs -f airflow-scheduler -d
+```
 
 ##🤝 Contributing
 Fork the repository
