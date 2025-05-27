@@ -73,7 +73,8 @@ snowflake:
       schema: "TRANSFORMED"
 ```
 
-##🏃 Running the Pipeline
+## 🏃 Running the Pipeline
+
 ```bash
 # Trigger DAG manually
 docker-compose exec airflow-webserver airflow dags trigger dbt_pipeline
@@ -82,37 +83,31 @@ docker-compose exec airflow-webserver airflow dags trigger dbt_pipeline
 docker-compose exec dbt dbt run
 ```
 
-##🧪 Validation
+## 🧪 Validation
+
 ```sql
 -- Check transformed data
- SELECT * FROM ANALYTICS.TRANSFORMED.CUSTOMERS LIMIT 10;
+SELECT * FROM ANALYTICS.TRANSFORMED.CUSTOMERS LIMIT 10;
 ```
 
-🛠 Troubleshooting
-DBT Connection Issues:
+## 🛠 Troubleshooting
+
+### DBT Connection Issues:
 
 ```bash
 docker-compose exec dbt dbt debug
-``` 
-Airflow Logs:
-
-bash
-``` docker-compose logs -f airflow-scheduler -d
 ```
 
-##🤝 Contributing
-Fork the repository
+## 🤝 Contributing
+- Fork the repository  
+- Create your feature branch  
+- Commit your changes  
+- Push to the branch  
+- Open a pull request  
 
-Create your feature branch
-
-Commit your changes
-
-Push to the branch
-
-Open a pull request
-
-##📜 License
+## 📜 License
 MIT
 
-##📧 Contact
-Dhruvil Panchal - dpanchal.dp.2005@gmail.com.com
+## 📧 Contact
+Dhruvil Panchal - dpanchal.dp.2005@gmail.com
+
