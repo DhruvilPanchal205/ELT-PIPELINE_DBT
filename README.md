@@ -1,45 +1,108 @@
-Overview
-========
+# ELT Pipeline with Airflow, DBT, and Snowflake
 
-Welcome to Astronomer! This project was generated after you ran 'astro dev init' using the Astronomer CLI. This readme describes the contents of the project, as well as how to run Apache Airflow on your local machine.
+<div align="center">
+  <img src="https://img.shields.io/badge/Airflow-017CEE?style=for-the-badge&logo=Apache%20Airflow&logoColor=white">
+  <img src="https://img.shields.io/badge/DBT-FF694B?style=for-the-badge&logo=dbt&logoColor=white">
+  <img src="https://img.shields.io/badge/Snowflake-29B5E8?style=for-the-badge&logo=Snowflake&logoColor=white">
+</div>
 
-Project Contents
-================
+## 📌 Overview
+Modern ELT pipeline featuring:
+- Airflow for orchestration
+- DBT for transformations  
+- Snowflake as data warehouse
+- Docker for containerization
 
-Your Astro project contains the following files and folders:
+## 📂 Project Structure
+.
+├── dags/
+│ ├── dbt_dag.py # Main DAG
+│ └── example_dag.py # Sample DAG
+├── data_pipeline/
+│ ├── models/ # DBT models
+│ ├── seeds/ # Seed files
+│ ├── macros/ # DBT macros
+│ └── dbt_project.yml # DBT config
+├── docker-compose.yml # Service definitions
+├── Dockerfile # Custom image
+├── requirements.txt # Python packages
+└── .env.example # Env template
 
-- dags: This folder contains the Python files for your Airflow DAGs. By default, this directory includes one example DAG:
-    - `example_astronauts`: This DAG shows a simple ETL pipeline example that queries the list of astronauts currently in space from the Open Notify API and prints a statement for each astronaut. The DAG uses the TaskFlow API to define tasks in Python, and dynamic task mapping to dynamically print a statement for each astronaut. For more on how this DAG works, see our [Getting started tutorial](https://www.astronomer.io/docs/learn/get-started-with-airflow).
-- Dockerfile: This file contains a versioned Astro Runtime Docker image that provides a differentiated Airflow experience. If you want to execute other commands or overrides at runtime, specify them here.
-- include: This folder contains any additional files that you want to include as part of your project. It is empty by default.
-- packages.txt: Install OS-level packages needed for your project by adding them to this file. It is empty by default.
-- requirements.txt: Install Python packages needed for your project by adding them to this file. It is empty by default.
-- plugins: Add custom or community plugins for your project to this file. It is empty by default.
-- airflow_settings.yaml: Use this local-only file to specify Airflow Connections, Variables, and Pools instead of entering them in the Airflow UI as you develop DAGs in this project.
+## 🚀 Quick Start
 
-Deploy Your Project Locally
-===========================
+### Prerequisites
+- Docker & Docker Compose
+- Snowflake account
 
-Start Airflow on your local machine by running 'astro dev start'.
+### Installation
+```bash
+git clone https://github.com/your-repo/elt-pipeline.git
+cd elt-pipeline
+cp .env.example .env
+# Edit .env with your credentials
+docker-compose up -d
 
-This command will spin up five Docker containers on your machine, each for a different Airflow component:
+Access Airflow UI: http://localhost:8080 (airflow/airflow)
+⚙️ Configuration
+Airflow Connections
+airflow_settings.yaml:
 
-- Postgres: Airflow's Metadata Database
-- Scheduler: The Airflow component responsible for monitoring and triggering tasks
-- DAG Processor: The Airflow component responsible for parsing DAGs
-- API Server: The Airflow component responsible for serving the Airflow UI and API
-- Triggerer: The Airflow component responsible for triggering deferred tasks
+yaml
+connections:
+  snowflake_conn:
+    conn_type: snowflake
+    host: "<account>.snowflakecomputing.com"
+    login: "<user>"
+    password: "<password>"
+    schema: "RAW"
+    extra: '{"database":"ANALYTICS","warehouse":"TRANSFORM_WH"}'
+DBT Profile
+data_pipeline/profiles.yml:
 
-When all five containers are ready the command will open the browser to the Airflow UI at http://localhost:8080/. You should also be able to access your Postgres Database at 'localhost:5432/postgres' with username 'postgres' and password 'postgres'.
+yaml
+snowflake:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
+      user: "{{ env_var('SNOWFLAKE_USER') }}"
+      password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
+      database: "ANALYTICS"
+      schema: "TRANSFORMED"
+🏃 Running the Pipeline
+bash
+# Trigger DAG manually
+docker-compose exec airflow-webserver airflow dags trigger dbt_pipeline
 
-Note: If you already have either of the above ports allocated, you can either [stop your existing Docker containers or change the port](https://www.astronomer.io/docs/astro/cli/troubleshoot-locally#ports-are-not-available-for-my-local-airflow-webserver).
+# Run DBT directly
+docker-compose exec dbt dbt run
+🧪 Validation
+sql
+-- Check transformed data
+SELECT * FROM ANALYTICS.TRANSFORMED.CUSTOMERS LIMIT 10;
+🛠 Troubleshooting
+DBT Connection Issues:
 
-Deploy Your Project to Astronomer
-=================================
+bash
+docker-compose exec dbt dbt debug
+Airflow Logs:
 
-If you have an Astronomer account, pushing code to a Deployment on Astronomer is simple. For deploying instructions, refer to Astronomer documentation: https://www.astronomer.io/docs/astro/deploy-code/
+bash
+docker-compose logs -f airflow-scheduler
+🤝 Contributing
+Fork the repository
 
-Contact
-=======
+Create your feature branch
 
-The Astronomer CLI is maintained with love by the Astronomer team. To report a bug or suggest a change, reach out to our support.
+Commit your changes
+
+Push to the branch
+
+Open a pull request
+
+📜 License
+MIT
+
+📧 Contact
+Dhruvil Panchal - dpanchal.dp.2005@gmail.com.com
