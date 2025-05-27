@@ -14,19 +14,22 @@ Modern ELT pipeline featuring:
 - Docker for containerization
 
 ## 📂 Project Structure
+
+```
 .
 ├── dags/
-│ ├── dbt_dag.py # Main DAG
-│ └── example_dag.py # Sample DAG
+│   ├── dbt_dag.py          # Main DAG
+│   └── example_dag.py      # Sample DAG
 ├── data_pipeline/
-│ ├── models/ # DBT models
-│ ├── seeds/ # Seed files
-│ ├── macros/ # DBT macros
-│ └── dbt_project.yml # DBT config
-├── docker-compose.yml # Service definitions
-├── Dockerfile # Custom image
-├── requirements.txt # Python packages
-└── .env.example # Env template
+│   ├── models/             # DBT models
+│   ├── seeds/              # Seed files
+│   ├── macros/             # DBT macros
+│   └── dbt_project.yml     # DBT config
+├── docker-compose.yml      # Service definitions
+├── Dockerfile              # Custom image
+├── requirements.txt        # Python packages
+└── .env.example            # Env template
+```
 
 ## 🚀 Quick Start
 
